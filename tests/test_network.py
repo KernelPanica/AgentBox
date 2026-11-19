@@ -62,3 +62,6 @@ class Network(unittest.TestCase):
             c1=render(self.p,Path(d)/'one',self.net)
             c2=render(self.p,Path(d)/'two',self.net)
             self.assertNotEqual(c1['name'],c2['name'])
+    def test_relay_readiness_is_a_real_service_healthcheck(self):
+        with tempfile.TemporaryDirectory() as d:c=render(self.p,Path(d),self.net)
+        self.assertIn('healthcheck',c['services']['relay'])

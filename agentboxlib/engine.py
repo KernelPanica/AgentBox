@@ -137,7 +137,7 @@ def exec_agent(state,command,interactive=True):
 
 
 def require_healthy(state):
-    for service in ['gateway','agent']:
+    for service in ['gateway','agent','relay']:
         r=compose(state,['ps','--status','running','-q',service],capture_output=True,text=True,check=True)
         cid=r.stdout.strip()
         if not cid:raise ValueError(f'{service} не запущен; выполните stop и start')

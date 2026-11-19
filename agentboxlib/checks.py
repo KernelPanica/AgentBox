@@ -15,6 +15,7 @@ def agent_probe(state,blocked=False):
 def integration(state,profile,faults=False):
     report={'normal':agent_probe(state),'faults':'NOT_RUN: use --faults to interrupt this profile','capture':'NOT_RUN: see README capture procedure'}
     if faults:
+        report['faults']='EXECUTED: gateway stop and recovery; see phase results'
         engine.compose(state,['stop','gateway'],check=True)
         try:report['gateway_stopped']=agent_probe(state,True)
         finally:

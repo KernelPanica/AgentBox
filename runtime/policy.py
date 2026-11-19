@@ -35,6 +35,13 @@ def gateway_rules(c,iface,gateway):
     forward='' if isx else f'''ip saddr {c['agent_ip']} ip daddr @private4 drop
        iifname != "tun0" oifname "tun0" ip saddr {c['agent_ip']} meta l4proto {{ tcp, udp }} accept
        iifname "tun0" ip daddr {c['agent_ip']} ct state established,related accept'''
+    nat='' if isx else '''table ip agentbox_nat {
+ chain postrouting {
+ type nat hook postrouting priority srcnat; policy accept;
+ oifname "tun0" masquerade
+ }
+}
+'''
     return f'''table netdev agentbox_wire {{
  chain uplink {{ type filter hook egress device "{iface}" priority 0; policy drop;
    ether type arp arp saddr ip {c['uplink_ip']} arp daddr ip {gateway} arp operation {{ request, reply }} accept
@@ -65,7 +72,7 @@ table inet agentbox {{
    {'' if isx else 'oifname "tun0" meta l4proto { tcp, udp } accept'}
  }}
 }}
-{'' if isx else 'table ip agentbox_nat {\n chain postrouting {\n type nat hook postrouting priority srcnat; policy accept;\n oifname "tun0" masquerade\n }\n}\n'}'''
+{nat}'''
 
 
 def relay_rules(c):
@@ -80,6 +87,7 @@ def relay_rules(c):
    meta nfproto ipv6 drop
    ip daddr 127.0.0.11 drop
    ct state established,related accept
+   oifname "lo" ip daddr 127.0.0.1 tcp dport 6080 accept
    ip daddr {c['agent_ip']} tcp dport 5900 accept
  }}
 }}'''

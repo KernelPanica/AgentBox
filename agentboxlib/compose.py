@@ -52,6 +52,7 @@ def render(profile,state,net,identity=None):
            'sysctls':{**common['sysctls'],'net.ipv4.ip_forward':'0'},
            'volumes':[bind(state/'relay.json','/etc/agentbox.json')],
            'networks':{'enclave':{'ipv4_address':net['relay_ip']},'ui':{'gw_priority':1}},
+           'healthcheck':{'test':['CMD','python3','-c',"import http.client;c=http.client.HTTPConnection('127.0.0.1',6080,timeout=2);c.request('GET','/vnc.html');assert c.getresponse().status==200"],'interval':'3s','timeout':'3s','start_period':'3s','retries':10},
            'ports':[f'127.0.0.1:{p["desktop_port"]}:6080'],'depends_on':{'agent':{'condition':'service_healthy'}}}
     def internal(subnet):
         return {'internal':True,'enable_ipv6':False,'driver_opts':{'com.docker.network.bridge.gateway_mode_ipv4':'isolated'},'ipam':{'config':[{'subnet':subnet}]}}

@@ -20,6 +20,8 @@ class Lifecycle(unittest.TestCase):
             self.assertNotIn('endpoints',a);self.assertNotIn('vpn',a)
             self.assertNotIn('PrivateKey',(state/'compose.json').read_text())
             self.assertEqual(len((state/'vnc.password').read_text().strip()),8)
+            from agentboxlib.engine import cleanup_mounts
+            cleanup_mounts(state)
     def test_lock_rejects_second_owner(self):
         with tempfile.TemporaryDirectory() as d:
             with lock(Path(d)/'lock'):
