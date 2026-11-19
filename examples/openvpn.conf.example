@@ -1,0 +1,19 @@
+# Замените endpoint и inline сертификаты. Внешние пути, скрипты и plugins запрещены.
+client
+dev tun0
+proto udp
+remote 8.8.8.8 1194
+nobind
+remote-cert-tls server
+auth-nocache
+<ca>
+REPLACE_WITH_CA_CERTIFICATE
+</ca>
+<cert>
+REPLACE_WITH_CLIENT_CERTIFICATE
+</cert>
+<key>
+REPLACE_WITH_CLIENT_PRIVATE_KEY
+</key>
+# При необходимости добавьте <tls-crypt>...</tls-crypt> и
+# <auth-user-pass> с username и password на отдельных строках.

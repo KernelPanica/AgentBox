@@ -1,0 +1,13 @@
+{
+  "outbounds": [{
+    "protocol": "vless",
+    "settings": {"vnext": [{
+      "address": "8.8.8.8", "port": 443,
+      "users": [{"id": "REPLACE_WITH_UUID", "encryption": "none"}]
+    }]},
+    "streamSettings": {
+      "network": "tcp", "security": "tls",
+      "tlsSettings": {"serverName": "REPLACE_WITH_SERVER_NAME"}
+    }
+  }]
+}

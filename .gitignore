@@ -1,0 +1,9 @@
+.agentbox/
+__pycache__/
+*.pyc
+.env
+*.key
+*.conf
+!examples/*.conf.example
+reports/*.json
+reports/*.log

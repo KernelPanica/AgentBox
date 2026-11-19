@@ -1,0 +1,10 @@
+# Скопируйте в приватный файл, chmod 600. Замените все ключи и Endpoint.
+[Interface]
+PrivateKey = REPLACE_WITH_CLIENT_PRIVATE_KEY
+Address = 10.8.0.2/32
+MTU = 1380
+[Peer]
+PublicKey = REPLACE_WITH_SERVER_PUBLIC_KEY
+AllowedIPs = 0.0.0.0/0
+Endpoint = 8.8.8.8:51820
+PersistentKeepalive = 25

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec chromium --ozone-platform=x11 --disable-dev-shm-usage --user-data-dir=/home/agent/.config/browser "$@"
